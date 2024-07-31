@@ -20,6 +20,7 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    # Get input from form
     beds = int(request.form['beds'])
     baths = float(request.form['baths'])
     size = float(request.form['size'])
@@ -31,7 +32,12 @@ def predict():
     # Make prediction
     prediction = model.predict(input_data)[0]
 
-    return str(prediction)
+    # Convert the price to positive if it's negative
+    positive_price = abs(prediction)
+
+    # Return the positive prediction
+    return f"Predicted Price: INR {positive_price:.2f}"
 
 if __name__ == '__main__':
     app.run(debug=True)
+
